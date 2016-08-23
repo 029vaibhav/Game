@@ -15,8 +15,8 @@ public class Tube {
     private static final int TUBE_GAP = 100; //opening between tubes
     private static final int LOWEST_OPENING = 120; //lowest position the top of the bottom tube can be, must be above 90 to be above ground level
     private static final int FLUCTUATION = 130;  //may adjust to keep top tube in view
-    private Texture topTube,bottomTube;
-    private Vector2 posTopTube,posBottomTube;
+    private Texture topTube, bottomTube;
+    private Vector2 posTopTube, posBottomTube;
     private Rectangle boundsTop, boundsBottom;
 
     private Random random;
@@ -50,16 +50,19 @@ public class Tube {
         return posBottomTube;
     }
 
-    public void reposition(float x)
-    {
+    public void reposition(float x) {
         posTopTube.set(x, random.nextInt(FLUCTUATION) + LOWEST_OPENING + TUBE_GAP);
         posBottomTube.set(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
         boundsTop.setPosition(x, posTopTube.y);
         boundsBottom.setPosition(x, posBottomTube.y);
     }
 
-    public boolean collides(Rectangle player){
+    public boolean collides(Rectangle player) {
         return player.overlaps(boundsBottom) || player.overlaps(boundsTop);
     }
 
+    public void dispose() {
+        topTube.dispose();
+        bottomTube.dispose();
+    }
 }

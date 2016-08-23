@@ -2,6 +2,7 @@ package com.vaibhav.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public static final String TITLE = "Flappy demo";
     private GameStateManager gameStateManager;
     private SpriteBatch spriteBatch;
+    private Music music;
 
     SpriteBatch batch;
     Texture img;
@@ -24,6 +26,10 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         gameStateManager = new GameStateManager();
         gameStateManager.push(new MenuState(gameStateManager));
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.10f);
+        music.play();
         Gdx.gl.glClearColor(1, 0, 0, 1);
     }
 
@@ -31,13 +37,12 @@ public class MyGdxGame extends ApplicationAdapter {
     public void render() {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       gameStateManager.update(Gdx.graphics.getDeltaTime());
+        gameStateManager.update(Gdx.graphics.getDeltaTime());
         gameStateManager.render(batch);
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        img.dispose();
+        music.dispose();
     }
 }
